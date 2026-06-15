@@ -53,4 +53,45 @@ server {
         proxy_pass $upstream_proto://$upstream_app:$upstream_port;
 
     }
+
+    # Allows API access, including with WallaBag OAuth. Useful for example w/WallaBagger browser extension.
+    #location ~ ^/(api/(entries|tags|annotations|info|version|user|graphql)(\.json)?(/.*)?|oauth/v2/(token|auth))$ {
+    #    include /config/nginx/proxy.conf;
+    #    include /config/nginx/resolver.conf;
+    #    set $upstream_app wallabag;
+    #    set $upstream_port 80;
+    #    set $upstream_proto http;
+    #
+    #    # + CORS ------------------------------------------------------------------------------------------------ +
+    #
+    #    # Least secure; uncomment only if needed (and comment out the other 2).
+    #    #add_header 'Access-Control-Allow-Origin' '*' always;
+    #
+    #    # Allows CORS only for browser extensions? (less secure than your specific extension ID, but more than '*')
+    #    # and more portable.
+    #    set $cors_origin "";
+    #    if ($http_origin ~* "^(chrome|moz)-extension://") {
+    #        set $cors_origin $http_origin;
+    #    }
+    #    add_header 'Access-Control-Allow-Origin' $cors_origin always;
+    #
+    #    # Most secure if only using WallaBagger/browser extension (but must match its specific extension ID)
+    #    #add_header 'Access-Control-Allow-Origin' 'chrome-extension://gbmgphmejlcoihgedabhgjdkcahacjlj' always;
+    #
+    #    # Least secure; uncomment only if needed.
+    #    #add_header 'Access-Control-Allow-Methods' 'GET, POST, PATCH, PUT, DELETE, OPTIONS' always;
+    #
+    #    # Most secure if only using WallaBagge/browser extension
+    #    add_header 'Access-Control-Allow-Methods' 'GET, POST, PATCH, OPTIONS' always;
+    #
+    #    add_header 'Access-Control-Allow-Headers' 'Authorization, Content-Type' always;
+    #
+    #    if ($request_method = OPTIONS) {
+    #        return 204;
+    #    }
+    #
+    #    # + CORS End--------------------------------------------------------------------------------------------- +
+    #
+    #    proxy_pass $upstream_proto://$upstream_app:$upstream_port;
+    #}
 }
